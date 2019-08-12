@@ -6,7 +6,7 @@ import Nav from 'react-bootstrap/Nav';
 import Form from 'react-bootstrap/Form';
 import './App.css';
 
-var keyCode = 'b37ed9c772d940c2ace3d420fa4a72f3';
+var keyCode = 'b467568382df4bcf850533c36dc3a21c';
 var key = '?apiKey='+keyCode;
 
 class App extends Component {
@@ -14,28 +14,38 @@ class App extends Component {
     super(props);
     this.state={
       allNews:[
-         {
-          id: "4bc992e7b6c49c7401a28e91", 
-          title: "Ken Yakitori", 
-          description: ['3 City Road','Newton','Auckland'], 
-          urlToImage: "Japanese",
-          activeKey:'politics'
-        },
-        {
-          id: "4b4d4133f964a52070cf26e3", 
-          title: "Real Groovy", 
-          description: ['3 City Road','Newton','Auckland'], 
-          urlToImage: "Record Shop",
-          activeKey:'Businsess'
-        },
-        {
-          id: "4b53a56bf964a52013a627e3", 
-          title: "Revel! Cafe", 
-          description: ['3 City Road','Newton','Auckland'], 
-          urlToImage: "Café",
-          activeKey:'Sports'
-        }
+        //  {
+        //   id: "4bc992e7b6c49c7401a28e91", 
+        //   title: "Ken Yakitori", 
+        //   description: ['3 City Road','Newton','Auckland'], 
+        //   urlToImage: "Japanese",
+        //   activeKey:'politics'
+        // },
+        // {
+        //   id: "4b4d4133f964a52070cf26e3", 
+        //   title: "Real Groovy", 
+        //   description: ['3 City Road','Newton','Auckland'], 
+        //   urlToImage: "Record Shop",
+        //   activeKey:'Businsess'
+        // },
+        // {
+        //   id: "4b53a56bf964a52013a627e3", 
+        //   title: "Revel! Cafe", 
+        //   description: ['3 City Road','Newton','Auckland'], 
+        //   urlToImage: "Café",
+        //   activeKey:'Sports'
+        // },
+        // {
+        //   id: "4b53a56bf964a52013a627e31", 
+        //   title: "Revel! Cafe", 
+        //   description: ['3 City Road','Newton','Auckland'], 
+        //   urlToImage: "Café",
+        //   activeKey:'politics'
+        // }
       ],
+      businessArticles:[],
+      politicsArticles:[],
+      SportsArticles:[],
       activeKey:'politics' 
     }
   }
@@ -54,7 +64,18 @@ class App extends Component {
       .then( res=>res.json())
       .then((data)=>{
         var articles = data.articles;
-        console.log(articles);
+
+        if(category=='business'){
+          this.setState({businessArticles:articles})
+        }
+    
+        if(category=='politics'){
+          this.setState({politicsArticles:articles})
+        }
+
+        if(category=='Sports'){
+          this.setState({SportsArticles:articles})
+        }
       })
   }
   
@@ -64,10 +85,14 @@ class App extends Component {
       .then( res=>res.json())
       .then((data)=>{
         var articles = data.articles;
-        console.log(articles);
+        //console.log(articles);
       })
   }
-  
+  componentDidMount(){
+    this.loadHeadlinesByCategory('business');
+    this.loadHeadlinesByCategory('politics');
+    this.loadHeadlinesByCategory('Sports');
+  }
   // testing 
   // loadHeadlinesByCategory('business');
   // loadHeadlinesByTerm('oil');
@@ -80,21 +105,16 @@ class App extends Component {
             <div className="row tab-top">
               
               <Nav variant="pills" className="col-7">
-              {
-                this.state.allNews.map((news) => {
-
-                  return(<Nav.Item>
-                    <Nav.Link eventKey={news.activeKey}>{news.activeKey}</Nav.Link>
-                  </Nav.Item>);
-                })
-              }
+              <Nav.Item>
+                    <Nav.Link eventKey="politics">Politics</Nav.Link>
+                  </Nav.Item>
                 
-                {/* <Nav.Item>
+                <Nav.Item>
                   <Nav.Link eventKey="business">Businsess</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link eventKey="sports">Sports</Nav.Link>
-                </Nav.Item> */}
+                </Nav.Item>
               </Nav>
 
               <form className="col-5">
@@ -112,17 +132,57 @@ class App extends Component {
 
             
             <Tab.Content>
+            <Tab.Pane className="tab-pane" eventKey="politics" >
+                <h1>politics </h1>
               {
-                this.state.allNews.map((news) => {
+                this.state.politicsArticles.map((news) => {
                   var newsProps = {
                     ...news,
-                    key:news.id,
+                    loadHeadlinesByCategory:this.loadHeadlinesByCategory,
                   }
 
-                  return(<News {...newsProps}/> )
+                  return(
+                  
+                  <News {...newsProps}/> 
+                  
+                  )
                 })
               }
-              
+             </Tab.Pane>
+             <Tab.Pane className="tab-pane" eventKey="business" >
+                <h1>business </h1>
+              {
+                this.state.businessArticles.map((news) => {
+                  var newsProps = {
+                    ...news,
+                    loadHeadlinesByCategory:this.loadHeadlinesByCategory,
+                  }
+
+                  return(
+                  
+                  <News {...newsProps}/> 
+                  
+                  )
+                })
+              }
+             </Tab.Pane>
+             <Tab.Pane className="tab-pane" eventKey="sports" >
+                <h1>sports </h1>
+              {
+                this.state.SportsArticles.map((news) => {
+                  var newsProps = {
+                    ...news,
+                    loadHeadlinesByCategory:this.loadHeadlinesByCategory,
+                  }
+
+                  return(
+                  
+                  <News {...newsProps}/> 
+                  
+                  )
+                })
+              }
+             </Tab.Pane>
               {/* <Tab.Pane className="tab-pane" eventKey="business">
                 <h1>Business</h1>
                 <div className="articles">

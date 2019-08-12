@@ -11,15 +11,9 @@ class News extends Component
     render()
     {
         return(
-            <Tab.Pane className="tab-pane" eventKey={this.props.activeKey}>
-                <h1>{this.props.activeKey}</h1>
+           
 
                 <div className="articles">
-                {
-                     this.state.allNews.map((news) => {
-                         
-                    })
-                }
                   <div className="article">
                     <h5>{this.props.title}</h5>
                     <p><span className="badge badge-primary">{this.props.title}</span></p>
@@ -36,7 +30,7 @@ class News extends Component
                   </div> */}
 
                 </div>
-              </Tab.Pane>
+             
 
         );
     }
