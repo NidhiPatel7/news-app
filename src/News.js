@@ -5,7 +5,7 @@ class News extends Component
     constructor(props)
     {
         super(props);
-        console.log(props);
+        //console.log(props);
     }
 
     render()
@@ -13,24 +13,18 @@ class News extends Component
         return(
            
 
-                <div className="articles">
-                  <div className="article">
+                
+                  <div className="article col-sm-12">
+                    <div className="img-div">
+                      <img src={this.props.urlToImage} alt="news"/>
+                    </div>
+                    <div className=" ">
                     <h5>{this.props.title}</h5>
-                    <p><span className="badge badge-primary">{this.props.title}</span></p>
+                    <p><span className="badge badge-primary">{this.props.author}</span></p>
+                    </div>
                   </div>
 
-                  {/* <div className="article">
-                    <h5>Bengals vs. Chiefs: 5 winners and 6 losers from Cincinnatis 38-17 defeat - Cincy Jungle</h5>
-                    <p><span className="badge badge-primary">Cincyjungle.com</span></p>
-                  </div>
-
-                  <div className="article">
-                    <h5>New 4K HDR Honor Vision smart screen running Huaweis HarmonyOS unveiled at HDC 19</h5>
-                    <p><span className="badge badge-primary">Buzz.ie</span></p>
-                  </div> */}
-
-                </div>
-             
+                  
 
         );
     }

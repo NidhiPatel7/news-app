@@ -2,14 +2,49 @@
 
 .container{
   margin-top:1em;
+  max-width: 20em;
+  background-image: url(Frame.png);
+  max-height: 40em;
+  border-radius: 1em;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.nav 
+{
+  margin: 2em 0;
 }
 .tab-top{
   margin-left: 0;
 }
 .tab-pane{
   min-height: 10em;
-  border:1px #007bff solid;
-  border-radius: 0.25rem;
+  /* border:1px #007bff solid;
+  border-radius: 0.25rem; */
+  /* margin-top: 1em;
+  padding:1em; */
+}
+.tab-content
+{
+  overflow: hidden;
+}
+.article
+{
+  border-bottom: 1px solid #d4e0ea;
   margin-top: 1em;
-  padding:1em;
+}
+.img-div img 
+{
+  width: 5em;
+  height: 5em;
+}
+.list-news
+{
+  background-color: aliceblue;
+  max-height: 20em;
+  overflow-y: scroll;
+  padding: 1em;
+  border-top-left-radius: 1em;
+}
+.badge
+{
+  max-width: 20em;
 }

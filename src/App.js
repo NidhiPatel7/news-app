@@ -46,6 +46,8 @@ class App extends Component {
       businessArticles:[],
       politicsArticles:[],
       SportsArticles:[],
+      searchArtical:[],
+      search:'',
       activeKey:'politics' 
     }
   }
@@ -53,11 +55,20 @@ class App extends Component {
   handleTabSelect = (key, e) => {
     this.setState({activeKey:key})
   }
-
+  handleSearchChange = (e) =>
+  {
+    this.setState({search:e.target.value});
+    
+  }
   handleSearchSubmitClick = (e) => {
     e.preventDefault();
-    this.setState({activeKey:'search'})
+    // this.setState({activeKey:'search'})
+    this.setState({activeKey:'search'});
+    this.loadHeadlinesByTerm(this.state.search);
+    // this.setState({search:e.target.value});
+    
   }
+
   loadHeadlinesByCategory = (category) => {
     var articlesURL = 'https://newsapi.org/v2/top-headlines'+key+'&category='+category;
     fetch(articlesURL)
@@ -65,17 +76,18 @@ class App extends Component {
       .then((data)=>{
         var articles = data.articles;
 
-        if(category=='business'){
+        if(category==='business'){
           this.setState({businessArticles:articles})
         }
     
-        if(category=='politics'){
+        if(category==='politics'){
           this.setState({politicsArticles:articles})
         }
 
-        if(category=='Sports'){
+        if(category==='Sports'){
           this.setState({SportsArticles:articles})
         }
+       
       })
   }
   
@@ -85,6 +97,10 @@ class App extends Component {
       .then( res=>res.json())
       .then((data)=>{
         var articles = data.articles;
+        this.setState({searchArtical:articles})
+        // if(term=='search'){
+        //   this.setState({searchArtical:articles})
+        // }
         //console.log(articles);
       })
   }
@@ -92,6 +108,7 @@ class App extends Component {
     this.loadHeadlinesByCategory('business');
     this.loadHeadlinesByCategory('politics');
     this.loadHeadlinesByCategory('Sports');
+    // this.loadHeadlinesByTerm('search');
   }
   // testing 
   // loadHeadlinesByCategory('business');
@@ -104,7 +121,7 @@ class App extends Component {
        
             <div className="row tab-top">
               
-              <Nav variant="pills" className="col-7">
+              <Nav variant="pills" className="col-12">
               <Nav.Item>
                     <Nav.Link eventKey="politics">Politics</Nav.Link>
                   </Nav.Item>
@@ -117,14 +134,14 @@ class App extends Component {
                 </Nav.Item>
               </Nav>
 
-              <form className="col-5">
+              <form className="col-12">
                 <div className="form-row align-items-center justify-content-end">
-                  <div className="col-auto">
-                    <input type="text" className="form-control mb-2 search-input" placeholder="Enter keywords"/>
+                  <div className="col-sm-8">
+                    <input type="text" className="form-control mb-2 search-input" placeholder="Enter keywords" onChange={this.handleSearchChange}/>
                   </div>
                   
-                  <div className="col-auto">
-                    <button onClick={this.handleSearchSubmitClick} type="submit" className="btn btn-primary mb-2 search-submit">Search</button>
+                  <div className="col-sm-4">
+                    <button onClick={this.handleSearchSubmitClick}   type="submit" className="btn btn-primary mb-2 search-submit">Search</button>
                   </div>
                 </div>
               </form>
@@ -134,85 +151,88 @@ class App extends Component {
             <Tab.Content>
             <Tab.Pane className="tab-pane" eventKey="politics" >
                 <h1>politics </h1>
-              {
-                this.state.politicsArticles.map((news) => {
-                  var newsProps = {
-                    ...news,
-                    loadHeadlinesByCategory:this.loadHeadlinesByCategory,
-                  }
+                <div className="list-news">
+                  <div className="articles">
+                  {
+                  this.state.politicsArticles.map((news) => {
+                    var newsProps = {
+                      ...news,
+                      loadHeadlinesByCategory:this.loadHeadlinesByCategory,
+                    }
 
-                  return(
-                  
-                  <News {...newsProps}/> 
-                  
-                  )
-                })
-              }
+                    return(
+                    
+                    <News {...newsProps}/> 
+                    
+                    )
+                  })
+                  }
+                </div>
+              </div>
              </Tab.Pane>
              <Tab.Pane className="tab-pane" eventKey="business" >
                 <h1>business </h1>
-              {
-                this.state.businessArticles.map((news) => {
-                  var newsProps = {
-                    ...news,
-                    loadHeadlinesByCategory:this.loadHeadlinesByCategory,
-                  }
+                <div className="list-news">
+                <div className="articles">
+                  {
+                    this.state.businessArticles.map((news) => {
+                      var newsProps = {
+                        ...news,
+                        loadHeadlinesByCategory:this.loadHeadlinesByCategory,
+                      }
 
-                  return(
-                  
-                  <News {...newsProps}/> 
-                  
-                  )
-                })
-              }
+                      return(
+                      
+                      <News {...newsProps}/> 
+                      
+                      )
+                    })
+                  }
+                </div>
+              </div>
              </Tab.Pane>
              <Tab.Pane className="tab-pane" eventKey="sports" >
                 <h1>sports </h1>
-              {
-                this.state.SportsArticles.map((news) => {
-                  var newsProps = {
-                    ...news,
-                    loadHeadlinesByCategory:this.loadHeadlinesByCategory,
-                  }
-
-                  return(
-                  
-                  <News {...newsProps}/> 
-                  
-                  )
-                })
-              }
-             </Tab.Pane>
-              {/* <Tab.Pane className="tab-pane" eventKey="business">
-                <h1>Business</h1>
+                <div className="list-news">
                 <div className="articles">
+                    {
+                      this.state.SportsArticles.map((news) => {
+                        var newsProps = {
+                          ...news,
+                          loadHeadlinesByCategory:this.loadHeadlinesByCategory,
+                        }
 
-                  <div className="article">
-                    <h5>Apple is giving out a special iPhone that can lead to a $1 million reward</h5>
-                    <p><span class="badge badge-primary">Phonearena.com</span></p>
+                        return(
+                        
+                        <News {...newsProps}/> 
+                        
+                        )
+                      })
+                    }
                   </div>
+              </div>
+             </Tab.Pane>
+             <Tab.Pane className="tab-pane" eventKey="search" >
+                <h1>search </h1>
+                <div className="list-news">
+                  <div className="articles">
+                    {
+                      this.state.searchArtical.map((news) => {
+                        var newsProps = {
+                          ...news,
+                          loadHeadlinesByCategory:this.loadHeadlinesByCategory,
+                        }
 
-                  <div className="article">
-                    <h5>New 4K HDR Honor Vision smart screen running Huaweis HarmonyOS unveiled at HDC 19</h5>
-                    <p><span class="badge badge-primary">Buzz.ie</span></p>
+                        return(
+                        
+                        <News {...newsProps}/> 
+                        
+                        )
+                      })
+                    }
                   </div>
-
-                </div>
-              </Tab.Pane> */}
-
-              {/* <Tab.Pane className="tab-pane" eventKey="sports">
-                <h1>Sports</h1>
-              </Tab.Pane> */}
-
-              {/* <Tab.Pane className="tab-pane" eventKey="search">
-                <h1>Search Results</h1>
-
-                <div className="article">
-                  <h5>Apple is giving out a special iPhone that can lead to a $1 million reward</h5>
-                  <p><span class="badge badge-primary">Phonearena.com</span></p>
-                </div>
-                
-              </Tab.Pane> */}
+              </div>
+             </Tab.Pane>
 
             </Tab.Content>
           
