@@ -15,9 +15,12 @@ class News extends Component
 
                 
                   <div className="article col-sm-12">
-                    <div className="img-div">
+                    {
+                      this.props.urlToImage !== null ? (<div className="img-div">
                       <img src={this.props.urlToImage} alt="news"/>
-                    </div>
+                    </div>) : ''
+                    }
+                    
                     <div className=" ">
                     <h5>{this.props.title}</h5>
                     <p><span className="badge badge-primary">{this.props.author}</span></p>
